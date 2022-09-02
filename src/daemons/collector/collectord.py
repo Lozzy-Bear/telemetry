@@ -11,24 +11,42 @@ Dataclasses are preferred but JSON to DICT is so straight forward.
 
 How should config be done? config.toml? config.py?
 """
+import schedule
+import time
+import datetime
+import src.utils.utils as utils
 
 
 def listen():
-
     return
 
 
 def request():
-
-    return
-
-
-def schedule():
-
     return
 
 
 def package_telemetry():
-
     return
 
+
+class Telemetry:
+
+    def __init__(self):
+        self.filepath = "../../../config.toml"
+        self.config = utils.load_config(self.filepath)
+        self.scheduler()
+
+    def scheduler(self):
+        for key, value in self.config.items():
+            print(key, value)
+        return
+
+
+    # while True:
+    #     schedule.run_pending()
+    #     time.sleep(1)
+    # return
+
+
+if __name__ == '__main__':
+    Telemetry()

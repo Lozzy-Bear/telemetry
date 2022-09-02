@@ -1,0 +1,25 @@
+[general]
+site = 'lab'
+nodename = 'sd-eng1'
+device = 'workstation'
+directory = ''
+user = ''
+
+[collectord]
+[collectord.service]
+
+
+[inxid]
+schedule = 10
+
+[webcamd]
+[webcam.1]
+camera = 0
+rotate = 0
+scale = 100
+mirror = -1
+contrast = 0
+brightness = 255
+schedule = []
+
+

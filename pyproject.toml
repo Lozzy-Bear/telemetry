@@ -24,7 +24,7 @@ classifiers = [
 # Requirements: This is done differently by poetry!
 dependencies = [
     "numpy",
-    "opencv-python"
+    "opencv-python",
     "orjson"
 ]
 
