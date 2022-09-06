@@ -1,9 +1,10 @@
 import os
 import json
 import tomllib as toml
-import datetime
 import subprocess
-
+import asyncio
+from contextlib import suppress
+import importlib
 
 def merge_dicts(*dictionary_args):
     merged = {}
@@ -39,11 +40,35 @@ def execute_cmd(cmd):
     return output.decode('utf-8')
 
 
-if __name__ == '__main__':
-    d1 = {'a': 1, 'b': 2}
-    d2 = {'c': 1, 'd': 2}
-    m = merge_dicts(d1, d2)
-    print(m)
-    write_json(m, '/home/arl203/icebear/telemetry/test')
-    print(load_config('/home/arl203/icebear/telemetry/config.toml'))
+class Script:
+    # todo: include script restarting or failure is okay and doesn't halt everything else
+    def __init__(self, config, func, wait):
+        # Let us expect config to be a dict with everything we need
+        self.func = getattr(importlib.import_module(name='src.daemons.testd.testd'), 'test_script')
+        # self.func = getattr(importlib.import_module('src.daemons.testd.testd'), 'test_script')
+        self.func()
+        self.config = config
+        self.wait = wait
+        self._running = False
+        self._task = None
 
+    def _setup(self):
+        # Read the config data and setup the script.
+        return
+
+    async def start(self):
+        if not self._running:
+            self._running = True
+            self._task = asyncio.ensure_future(self._run())
+
+    async def stop(self):
+        if self._running:
+            self._running = False
+            self._task.cancel()
+            with suppress(asyncio.CancelledError):
+                await self._task
+
+    async def _run(self):
+        while True:
+            await asyncio.sleep(self.wait)
+            self.func(self.config)
