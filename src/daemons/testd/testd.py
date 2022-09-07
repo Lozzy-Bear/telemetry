@@ -3,5 +3,6 @@ import datetime
 
 def test_script(config):
     print(f"This job is running: {datetime.datetime.utcnow()}")
-    return
+    data = {'a': 1, 'b': 'test data dict'}
+    return data
 

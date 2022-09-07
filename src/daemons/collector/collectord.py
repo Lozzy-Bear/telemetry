@@ -11,15 +11,13 @@ Dataclasses are preferred but JSON to DICT is so straight forward.
 
 How should config be done? config.toml? config.py?
 """
-import schedule
 import time
 import datetime
 import src.utils.utils as utils
 import asyncio
 
 
-class Telemetry:
-
+class Collector(utils.Script):
     def __init__(self):
         self.filepath = "../../../config.toml"
         self.config = utils.load_config(self.filepath)
@@ -43,9 +41,7 @@ class Telemetry:
         jobs = []
         for key, value in self.config['scripts'].items():
             print(self.config['scripts'][key])
-            jobs.append(utils.Script(self.config['scripts'][key],
-                                     self.config['scripts'][key]['entry'],
-                                     self.config['scripts'][key]['schedule']))
+            jobs.append(utils.Script(self.config['scripts'][key]))
             # print(key, value)
         for job in jobs:
             job.start()
@@ -53,5 +49,22 @@ class Telemetry:
         return
 
 
+async def main():
+    filepath = "../../../config.toml"
+    config = utils.load_config(filepath)
+
+    data = {}
+    jobs = []
+    for key, value in config['scripts'].items():
+        jobs.append(utils.Script(config['scripts'][key]))
+
+    for job in jobs:
+        await job.start()
+
+    while True:
+        await asyncio.sleep(10)
+        print("Checking on tasks")
+
+
 if __name__ == '__main__':
-    Telemetry()
+    asyncio.run(main())

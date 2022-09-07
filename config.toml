@@ -11,7 +11,7 @@ user = ''
 [scripts]
 [scripts.testd]
 entry = 'src.daemons.testd.testd.test_script'
-schedule = 5
+schedule = 1
 
 [inxid]
 schedule = 10

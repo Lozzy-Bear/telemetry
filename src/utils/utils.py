@@ -42,15 +42,14 @@ def execute_cmd(cmd):
 
 class Script:
     # todo: include script restarting or failure is okay and doesn't halt everything else
-    def __init__(self, config, func, wait):
-        # Let us expect config to be a dict with everything we need
-        self.func = getattr(importlib.import_module(name='src.daemons.testd.testd'), 'test_script')
-        # self.func = getattr(importlib.import_module('src.daemons.testd.testd'), 'test_script')
-        self.func()
+    def __init__(self, config):
+        module, func = config['entry'].rsplit('.', 1)
+        self.func = getattr(importlib.import_module(module), func)
         self.config = config
-        self.wait = wait
+        self.wait = config['schedule']
         self._running = False
         self._task = None
+        self.data = {}
 
     def _setup(self):
         # Read the config data and setup the script.
@@ -71,4 +70,5 @@ class Script:
     async def _run(self):
         while True:
             await asyncio.sleep(self.wait)
-            self.func(self.config)
+            self.data = self.func(self.config)
+            asyncio.Future.set_result()
