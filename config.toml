@@ -2,29 +2,31 @@
 site = 'lab'
 nodename = 'sd-eng1'
 device = 'workstation'
-directory = ''
+directory = '/home/arl203/icebear/telemetry/'
 user = ''
 
-[collectord]
-[collectord.service]
+[daemon]
+[daemon.service]
+
 
 [scripts]
-[scripts.testd]
-entry = 'src.daemons.testd.testd.test_script'
+[scripts.test]
+entry = 'src.scripts.test.test_script'
 schedule = 1
 
-[inxid]
+[scripts.inxi]
+entry = 'src.scripts.inxi.inxi_cli'
 schedule = 10
 
-[webcamd]
-[webcam.1]
-camera = 0
-rotate = 0
-scale = 100
-mirror = -1
-contrast = 0
-brightness = 255
-schedule = []
+#[scripts.camera]
+#[webcam.1]
+#camera = 0
+#rotate = 0
+#scale = 100
+#mirror = -1
+#contrast = 0
+#brightness = 255
+#schedule = []
 
 
 

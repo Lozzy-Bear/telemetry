@@ -1,0 +1,11 @@
+[Unit]
+Description=PyRIT Python Remote Instrument Telemetry
+
+[Service]
+user=radar
+WorkingDirectory=/home/arl203/icebear/telemetry/src/daemon/collectord.py
+ExecStart=/home/arl203/icebear/telemetry/venv-py311-telemetry/bin/python3.11 collectord.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
